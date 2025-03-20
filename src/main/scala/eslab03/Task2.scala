@@ -14,6 +14,6 @@ object Task2 extends App:
         case _ => Nil()
     )
 
-  def foldLeft[A](seq: Sequence[A])(a: A)(op: (A,A) => A): A = seq match
-    case Cons(h, t) => foldLeft(t)(op(a,h))(op)
-    case _ => a
+  def foldLeft[A, B](seq: Sequence[A])(acc: B)(op: (B,A) => B): B = seq match
+    case Cons(h, t) => foldLeft(t)(op(acc,h))(op)
+    case _ => acc
