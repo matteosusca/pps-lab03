@@ -17,3 +17,6 @@ object Task2 extends App:
   def foldLeft[A, B](seq: Sequence[A])(acc: B)(op: (B,A) => B): B = seq match
     case Cons(h, t) => foldLeft(t)(op(acc,h))(op)
     case _ => acc
+
+  def countCourses(seq: Sequence[Person]): Int =
+    foldLeft(map(getCourses(seq))(v => 1))(0)(_ + _)

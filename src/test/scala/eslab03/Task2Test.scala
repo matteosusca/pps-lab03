@@ -18,3 +18,9 @@ class Task2Test:
   @Test def testFoldLeft() =
     val lst = Cons(3, Cons(7, Cons(1, Cons(5 , Nil ()))))
     assertEquals(-16, foldLeft(lst)(0)(_ - _))
+
+  @Test def testCountCourses() =
+    val people = Cons(Teacher("John", "Math"), Cons(Student("Alice", 2021),   Cons(Teacher("Bob", "Physics"), Cons(Student("Alice", 2021), Nil()))))
+    val count = countCourses(people)
+    val x = filter(people)(Teacher => true)
+    assertEquals(2, count)
