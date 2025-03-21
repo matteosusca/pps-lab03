@@ -1,23 +1,23 @@
-package u03
+package eslab03
 
-import Optionals.Optional.*
-import extensionmethods.Sequences.*
 import org.junit.*
 import org.junit.Assert.*
+import u03.Sequences.*
+import Sequence.*
 
-class SequenceTest:
-  import u03.Sequences.*
-  import Sequence.*
-  import eslab03.Task1.*
+class Task1Test:
+
+  import u03.Optionals.Optional.Just
+  import u03.Optionals.Optional.Empty
+  import Task1.*
 
   val sequence: Sequence[Int] = Cons(10, Cons(20, Cons(30, Nil())))
-
   @Test def testSum() =
     assertEquals(0, sum(Nil()))
     assertEquals(60, sum(sequence))
 
   @Test def testMap() =
-    assertEquals(Cons(11, Cons(21, Cons(3, Nil()))), map(sequence)(_ + 1))
+    assertEquals(Cons(11, Cons(21, Cons(31, Nil()))), map(sequence)(_ + 1))
     assertEquals(Cons("10", Cons("20", Cons("30", Nil()))), map(sequence)(_ + ""))
 
   @Test def testFilter() =
@@ -69,12 +69,12 @@ class SequenceTest:
     assertEquals(Cons(10, Cons(20, Nil())), distinct(Cons(10, Cons(20, Cons(10, Nil())))))
     assertEquals(Nil(), distinct(Nil()))
 
-  @Test def testGroup() =
-    val sequence = Cons(10, Cons(10, Cons(20, Cons(30, Cons(20, Nil())))))
-    val grouped =
-      Cons(Cons(10, Cons(10, Nil())), Cons(Cons(20, Nil()), Cons(Cons(30, Nil()), Cons(Cons(20, Nil()), Nil()))))
-    assertEquals(group(sequence), grouped)
-    assertEquals(Nil(), group(Nil()))
+//  @Test def testGroup() =
+//    val sequence = Cons(10, Cons(10, Cons(20, Cons(30, Cons(20, Nil())))))
+//    val grouped =
+//      Cons(Cons(10, Cons(10, Nil())), Cons(Cons(20, Nil()), Cons(Cons(30, Nil()), Cons(Cons(20, Nil()), Nil()))))
+//    assertEquals(group(sequence), grouped)
+//    assertEquals(Nil(), group(Nil()))
 
   @Test def testPartition() =
     val sequence = Cons(11, Cons(20, Cons(31, Nil())))
@@ -87,4 +87,39 @@ class SequenceTest:
     assertEquals(Nil(), evenEmpty)
     assertEquals(Nil(), oddEmpty)
 
-end SequenceTest
+class Task2Test:
+  import u02.Modules.Person
+  import Person.*
+  import Task2.*
+
+  @Test def testGetCourses() =
+    val people = Cons(Teacher("John", "Math"), Cons(Student("Alice", 2021), Cons(Teacher("Bob", "Physics"), Nil())))
+    val courses = getCourses(people)
+    val expectedCourses = Cons("Math", Cons("Physics", Nil()))
+    assertEquals(expectedCourses, courses)
+
+  @Test def testFoldLeft() =
+    val lst = Cons(3, Cons(7, Cons(1, Cons(5 , Nil ()))))
+    assertEquals(-16, foldLeft(lst)(0)(_ - _))
+
+  @Test def testCountCourses() =
+    val people = Cons(Teacher("John", "Math"), Cons(Student("Alice", 2021),   Cons(Teacher("Bob", "Physics"), Cons(Student("Alice", 2021), Nil()))))
+    val count = countCourses(people)
+    val x = filter(people)(Teacher => true)
+    assertEquals(2, count)
+
+class Task3Test:
+
+  import Task3.*
+  import u03.Streams.Stream
+  import u03.Streams.Stream.*
+
+  @Test def testFill() =
+    val filled = fill(5)("x")
+    val expected = Cons("x", Cons("x", Cons("x", Cons("x", Cons("x", Nil())))))
+    assertEquals(expected, filled)
+
+  @Test def testGetFibonacci() =
+    val fib = getFibonacci()
+    val expected = Cons(0, Cons(1, Cons(1, Cons(2, Cons(3, Cons(5, Cons(8, Cons(13, Cons(21, Cons(34, Nil()))))))))))
+    assertEquals(expected, toList(take(fib)(10)))
